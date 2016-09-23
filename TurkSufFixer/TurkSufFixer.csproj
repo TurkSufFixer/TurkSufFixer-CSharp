@@ -7,8 +7,8 @@
     <ProjectGuid>{54EACA33-CEB7-4FE0-B296-9A7151FC0968}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>suffix</RootNamespace>
-    <AssemblyName>suffix</AssemblyName>
+    <RootNamespace>TurkSufFixer</RootNamespace>
+    <AssemblyName>TurkSufFixer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
