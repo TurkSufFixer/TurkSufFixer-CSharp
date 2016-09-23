@@ -1,0 +1,5 @@
+cm -> santimetre
+servEr -> sÖrvır
+ITÜ -> itü
+ABD
+cm² -> kare
