@@ -96,6 +96,7 @@ namespace TurkSufFixer
                         others.Add(line, line + "e");
                     }
                 }
+                dictionary.UnionWith(others.Keys);
             }
             catch (IOException e)
             {
