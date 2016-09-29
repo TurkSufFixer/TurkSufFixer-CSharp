@@ -52,7 +52,7 @@ Followings are covered:
  - Numbers
  - Exceptional words (i.e. alkol, santral) handling
  - Foreign originated words (only valid for words that in others dictionary, see Dictionaries section)
- - Words that go under vowel ellipsis* (i.e. "omuz")*
+ - Words that go under vowel ellipsis (i.e. "omuz")*
  - Nouns that follow consonant harmony (i.e. “Çalışma Bakanlığı”)*
  - Words that have irregular third person singular form (i.e. “sanayii”)*
  - Abbreviations
@@ -85,7 +85,7 @@ There is one more function: **getSuffix**. We do not recommend to use this funct
 
 ## Test
 
-You can run tests with Visual Studio (Test->Run)Additionally, you can add more test cases to testing operation by simply editing txt files in the *tests* folder.
+You can run tests with Visual Studio (Test->Run). Additionally, you can add more test cases to testing operation by simply editing txt files in the *tests* folder.
 
 ## Dictionaries
 
