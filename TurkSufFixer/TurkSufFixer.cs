@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Reflection;
 
 namespace TurkSufFixer
 {
@@ -83,16 +84,23 @@ namespace TurkSufFixer
         public SufFixer(string dictpath = @"sozluk/kelimeler.txt", string exceptpath = @"sozluk/istisnalar.txt",
                       string haplopath = @"sozluk/unludusmesi.txt", string poss = @"sozluk/iyelik.txt", string othpath = @"sozluk/digerleri.txt")
         {
+            
             try
             {
                 possesiveFilePath = poss;
-                dictionary = new HashSet<string>(File.ReadAllLines(dictpath, Encoding.UTF8));
+                /*dictionary = new HashSet<string>(File.ReadAllLines(dictpath, Encoding.UTF8));
                 possesive = new HashSet<string>(File.ReadAllLines(poss, Encoding.UTF8));
                 exceptions = new HashSet<string>(File.ReadAllLines(exceptpath, Encoding.UTF8));
-                haplology = new HashSet<string>(File.ReadAllLines(haplopath, Encoding.UTF8));
+                haplology = new HashSet<string>(File.ReadAllLines(haplopath, Encoding.UTF8));*/
+                dictionary = new HashSet<string>(readResourceLines(dictpath));
+                possesive = new HashSet<string>(readResourceLines(poss));
+                exceptions = new HashSet<string>(readResourceLines(exceptpath));
+                haplology = new HashSet<string>(readResourceLines(haplopath));
                 dictionary.UnionWith(exceptions);
                 dictionary.UnionWith(haplology);
                 Regex a = new Regex("(\\w+) +-> +(\\w+)", RegexOptions.CultureInvariant);
+                if (!File.Exists(othpath))
+                    return;
                 foreach (var fline in File.ReadAllLines(othpath, Encoding.UTF8))
                 {
                     string line = turkishSanitize(fline);
@@ -110,6 +118,19 @@ namespace TurkSufFixer
             catch (IOException e)
             {
                 throw new DictionaryNotFoundException(e.Message,e);
+            }
+        }
+
+        private string[] readResourceLines(string res_path)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+
+            using (Stream stream = assembly.GetManifestResourceStream($"TurkSufFixer.{res_path.Replace('/','.')}"))
+            {
+                using (var reader = new StreamReader(stream, Encoding.UTF8))
+                {
+                    return reader.ReadToEnd().Split('\n');
+                }
             }
         }
 
