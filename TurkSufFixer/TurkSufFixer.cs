@@ -105,7 +105,6 @@ namespace TurkSufFixer
                         others.Add(line, line + (line.EndsWith("k") ? "a" : "e"));
                     }
                 }
-                dictionary.UnionWith(others.Keys);
             }
             catch (IOException e)
             {
