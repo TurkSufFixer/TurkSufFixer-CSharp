@@ -32,6 +32,7 @@ namespace TurkSufFixer
         private static readonly string[] numbers = {"sıfır","bir","iki","üç","dört","beş","altı","yedi","sekiz","dokuz" };
         private static readonly string[] tens = {"sıfır", "on", "yirmi", "otuz", "kırk", "elli", "altmış", "yetmiş", "seksen", "doksan" };
         private string possesiveFilePath;
+        private Regex time_pattern = new Regex("([01]?[0-9]|2[0-3])[.:]00");
         private static Dictionary<int, string> digits = new Dictionary<int, string>()
         {
             {0, "yüz"},
@@ -114,7 +115,12 @@ namespace TurkSufFixer
 
         private string readNumber(string number)
         {
-            if (number.Length == 1 && number.Equals('0')) return "sıfır";
+            var time_match = time_pattern.Match(number);
+            if (time_match.Success)
+            {
+                number = time_match.Groups[1].Value;
+            }
+
             for (int i = number.Length - 1; i >= 0; i--)
             {
                 if (!number[i].Equals('0') && Regex.IsMatch(number[i].ToString(), @"\d"))
