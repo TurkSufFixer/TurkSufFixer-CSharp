@@ -190,8 +190,9 @@ namespace TurkSufFixer
             lastVowelOfName = name.Last(c => vowels.Contains(c));
             firstVowelOfSuffix = suffix.First(c => vowels.Contains(c));
 
-            return (frontvowels.Contains(lastVowelOfName) || isFrontVowel) == (frontvowels.Contains(firstVowelOfSuffix)
-                    && (roundedvowels.Contains(lastVowelOfName) == roundedvowels.Contains(firstVowelOfSuffix)));
+            bool frontness = (frontvowels.Contains(lastVowelOfName) || isFrontVowel) == (frontvowels.Contains(firstVowelOfSuffix));
+            bool roundness = (roundedvowels.Contains(lastVowelOfName) == roundedvowels.Contains(firstVowelOfSuffix));
+            return frontness && (roundness || !H.Contains(firstVowelOfSuffix));
         }
         private string surfacetolex(string suffix)
         {
