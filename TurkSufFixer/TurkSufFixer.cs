@@ -18,14 +18,14 @@ namespace TurkSufFixer
           Suffixes.INS,
           Suffixes.PLU
         };
-        private static readonly string vowels = "aıuoeiüöâûô";
+        private static readonly string vowels = "aıuoeiüö";
         //private static readonly string backvowels = "aıuo";
-        private static readonly string frontvowels = "eiüöâûô";
+        private static readonly string frontvowels = "eiüö";
         private static readonly string backunrounded = "aı";
         private static readonly string backrounded = "uo";
-        private static readonly string frontunrounded = "eiâ";
+        private static readonly string frontunrounded = "ei";
         private static readonly string frontrounded = "üöûô";
-        private static readonly string roundedvowels = "uoüöûô";
+        private static readonly string roundedvowels = "uoüö";
         private static readonly string hardconsonant = "fstkçşhp";
         private static readonly string H = "ıiuü";
         private static readonly string[] numbers = {"sıfır","bir","iki","üç","dört","beş","altı","yedi","sekiz","dokuz" };
@@ -52,6 +52,14 @@ namespace TurkSufFixer
         {
             {"ae",'A'},
             {"ıuüi",'H'}
+        };
+        private static TupleList<char, char> accent_table = new TupleList<char, char>()
+        {
+            {'â', 'e'},
+            {'î', 'i'},
+            {'û', 'ü'},
+            {'ô', 'ö'}
+
         };
         List<string> possessivesuff = new List<string>(4)
         {
@@ -85,7 +93,7 @@ namespace TurkSufFixer
                 Regex a = new Regex("(\\w+) +-> +(\\w+)", RegexOptions.CultureInvariant);
                 foreach (var fline in File.ReadAllLines(othpath, Encoding.UTF8))
                 {
-                    string line = fline.ToLower(turkishCulture).Trim();
+                    string line = turkishSanitize(fline);
                     var match = a.Match(line);
                     if (match.Success)
                     {
@@ -257,7 +265,7 @@ namespace TurkSufFixer
         }
         public string getSuffix(string name, string suffix)
         {
-            name = name.Trim();
+            name = turkishSanitize(name);
 
             if (name.Length == 0)
             {
@@ -270,7 +278,7 @@ namespace TurkSufFixer
             string rawsuffix = suffix;
             bool soft = false;
             var split = name.Split(' ');
-            name = split.Last().ToLower(turkishCulture);
+            name = split.Last();
             if ((H.Contains(name.Last()) && (!rawsuffix.Equals(Suffixes.PLU) && !rawsuffix.Equals(Suffixes.INS)) && 
                 (split.Length > 1 || !dictionary.Contains(name)) && (possesive.Contains(name) || checkCompoundNoun(name))))
             {
@@ -333,6 +341,16 @@ namespace TurkSufFixer
 		        return 'u';
 	        }
 		    return 'ı';
+        }
+        private string turkishSanitize(string name)
+        {
+            name = name.Trim();
+            name = name.ToLower(turkishCulture);
+            foreach (var rep_char in accent_table)
+            {
+                name = name.Replace(rep_char.Item1, rep_char.Item2);
+            }
+            return name;
         }
         ~SufFixer()
         {
