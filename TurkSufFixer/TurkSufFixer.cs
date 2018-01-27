@@ -34,20 +34,20 @@ namespace TurkSufFixer
         private string possesiveFilePath;
         private static Dictionary<int, string> digits = new Dictionary<int, string>()
         {
-            {0,"yüz"},
-            {3,"bin"},
-            {6,"milyon"},
-            {9,"milyar"},
-            {12,"trilyon"},
-            {15,"katrilyon"}
+            {0, "yüz"},
+            {3, "bin"},
+            {6, "milyon"},
+            {9, "milyar"},
+            {12, "trilyon"},
+            {15, "katrilyon"}
         };
         private static TupleList<char,char> consonantTuple = new TupleList<char,char>()
         {
-            {'ğ','k'},
-            {'g','k'},
-            {'d','t'},
-            {'c','ç'},
-            {'b','p'}
+            {'ğ', 'k'},
+            {'g', 'k'},
+            {'d', 't'},
+            {'c', 'ç'},
+            {'b', 'p'}
         };
         private static TupleList<string, char> translate_table = new TupleList<string, char>()
         {
@@ -64,12 +64,12 @@ namespace TurkSufFixer
         };
         List<string> possessivesuff = new List<string>(4)
         {
-            "lArH", "H","yH","sH"
+            "lArH", "H", "yH", "sH", "lHğH"
         };
         private Dictionary<string, string> superscript = new Dictionary<string, string>()
         {
-            {"²","kare"},
-            {"³","küp"}
+            {"²", "kare"},
+            {"³", "küp"}
         };
         private Dictionary<string, string> others = new Dictionary<string,string>();
         private HashSet<string> dictionary;
@@ -206,6 +206,8 @@ namespace TurkSufFixer
         }
         private bool checkCompoundNoun(string name)
         {
+            if (name.EndsWith("oğlu"))
+                return true;
             var probablesuff = new Dictionary<string, string>(4);
             for (int i = 1; i < 5 && i < name.Length; i++)
 			{
