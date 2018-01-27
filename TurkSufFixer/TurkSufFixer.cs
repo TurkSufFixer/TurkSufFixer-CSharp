@@ -16,7 +16,8 @@ namespace TurkSufFixer
           Suffixes.LOC,
           Suffixes.ABL,
           Suffixes.INS,
-          Suffixes.PLU
+          Suffixes.PLU,
+          Suffixes.GEN
         };
         private static readonly string vowels = "aıuoeiüö";
         //private static readonly string backvowels = "aıuo";
@@ -259,6 +260,10 @@ namespace TurkSufFixer
         {
             return constructName(name, Suffixes.PLU, apostrophe);
         }
+        public string makeGenitive(string name, bool apostrophe = true)
+        {
+            return constructName(name, Suffixes.GEN, apostrophe);
+        }
         private string constructName(string name, string suffix, bool apostrophe = true)
         {
             return string.Format("{0}{1}{2}", name, apostrophe ? "'" : "", getSuffix(name, suffix));
@@ -321,9 +326,10 @@ namespace TurkSufFixer
                     suffix = suffix.Replace('D','d');
             }
 
-            if (vowels.Contains(name.Last()) &&
-                (vowels.Contains(suffix[0]) || (rawsuffix.Equals(Suffixes.INS))))
-                suffix = 'y' + suffix;
+            if (vowels.Contains(name.Last())){
+               if (vowels.Contains(suffix[0]) || (rawsuffix.Equals(Suffixes.INS)))
+                suffix = (rawsuffix.Equals(Suffixes.GEN) ? 'n' : 'y') + suffix;
+            }
             return suffix;
         }
         private char findReplacement(char lastVowel, bool soft)
@@ -414,5 +420,6 @@ namespace TurkSufFixer
         public static String ABL { get { return "DAn"; } }
         public static String INS { get { return "lA"; } }
         public static String PLU { get { return "lAr"; } }
+        public static String GEN { get { return "Hn"; } }
     }
 }
