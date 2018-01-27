@@ -102,7 +102,7 @@ namespace TurkSufFixer
                     }
                     else
                     {
-                        others.Add(line, line + "e");
+                        others.Add(line, line + (line.EndsWith("k") ? "a" : "e"));
                     }
                 }
                 dictionary.UnionWith(others.Keys);
@@ -309,8 +309,8 @@ namespace TurkSufFixer
             }
             char lastVowel = name.LastOrDefault(c => vowels.Contains(c));
             if (lastVowel.Equals('\0')){
-                lastVowel = 'e';
-                name = name + 'e';
+                lastVowel = name.EndsWith("k") ? 'a' : 'e';
+                name = name + (name.EndsWith("k") ? 'a' : 'e');
             }
 
             if (suffix.Last() == 'H')
